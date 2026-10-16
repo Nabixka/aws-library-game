@@ -9,7 +9,7 @@ export default {
   development: {
     client: 'pg',
     connection: {
-      database: process.env.DB_NAME,
+      database: 'honkai_star_rail',
       user:     process.env.DB_USER,
       password: process.env.DB_PASS,
       host:   process.env.DB_HOST
@@ -19,7 +19,7 @@ export default {
   production: {
     client: 'pg',
     connection: {
-      database: process.env.DB_NAME,
+      database: 'honkai_star_rail',
       user:     process.env.DB_USER,
       password: process.env.DB_PASS,
       host:   process.env.DB_HOST,

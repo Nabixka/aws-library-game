@@ -86,10 +86,10 @@ export class CharacterService {
         file?: Express.Multer.File,
         folder: string = 'uploads'
     ){
-        const existingCharacter = await this.databaseService.connection("character").select("*").where("id", id).first()
+        const existingCharacter = await this.getCharacterById(id)
         if(!existingCharacter) throw new NotFoundException("Character Tidak Ada")
 
-        let imageUrl = existingCharacter.image;
+        let imageUrl = existingCharacter.data.image;
 
         if (file) {
             const fileName = `${folder}/${Date.now()}-${file.originalname}`
@@ -104,9 +104,9 @@ export class CharacterService {
 
             imageUrl = `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 
-            if (existingCharacter.image) {
+            if (existingCharacter.data.image) {
                 try {
-                    const oldKey = existingCharacter.image.split('.amazonaws.com/')[1];
+                    const oldKey = existingCharacter.data.image.split('.amazonaws.com/')[1];
                     if (oldKey) {
                         const deleteCommand = new DeleteObjectCommand({
                             Bucket: process.env.S3_BUCKET_NAME,
