@@ -1,5 +1,19 @@
-# Vue 3 + Vite
+# Aster Database
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Frontend untuk menjelajahi database karakter Honkai: Star Rail, Zenless Zone Zero, dan Genshin Impact. Dibangun dengan Vue 3, Vite, dan Tailwind CSS v4.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Menjalankan aplikasi
+
+```sh
+npm install
+npm run dev
+```
+
+Atur URL service melalui `VITE_HSR_API_URL`, `VITE_ZZZ_API_URL`, dan `VITE_GI_API_URL` di file `.env`. Contoh konfigurasi tersedia di `.env.example`.
+
+## Build produksi
+
+```sh
+npm run build
+npm run preview
+```

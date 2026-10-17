@@ -47,11 +47,14 @@ onUnmounted(() => window.removeEventListener('popstate', syncPath))
     :character-id="route.characterId"
     :navigate="navigate"
   />
-  <main v-else class="not-found">
-    <p class="eyebrow">404 · HALAMAN TIDAK DITEMUKAN</p>
-    <h1>Sepertinya kamu tersesat.</h1>
-    <button class="text-link" type="button" @click="navigate('/')">
-      ← Kembali ke library
-    </button>
+  <main v-else class="grid min-h-screen place-items-center px-5">
+    <section class="max-w-lg rounded-xl border border-line bg-panel p-8 text-center sm:p-12">
+      <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-mint">404 · Page not found</p>
+      <h1 class="mt-4 text-3xl font-extrabold tracking-tight text-copy">Sepertinya kamu tersesat.</h1>
+      <p class="mt-3 text-sm leading-6 text-muted">Halaman yang kamu cari tidak tersedia di database.</p>
+      <button class="mt-7 rounded-lg bg-mint px-4 py-2.5 text-xs font-bold text-ink transition hover:brightness-110" type="button" @click="navigate('/')">
+        ← Kembali ke library
+      </button>
+    </section>
   </main>
 </template>

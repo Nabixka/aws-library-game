@@ -7,8 +7,9 @@ export const games = [
     tagline: 'Perjalanan melintasi bintang dimulai di sini.',
     apiUrl: import.meta.env.VITE_HSR_API_URL || 'http://localhost:3001',
     theme: 'hsr',
+    accent: '#76d8c7',
     image:
-      'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1800&q=85',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbSUzVX1NAzQcHFqtfh9R66Ohm53v7uSx2Te-aRoJd1Q&s=10',
     imagePosition: 'center 48%',
     index: '01',
   },
@@ -20,8 +21,9 @@ export const games = [
     tagline: 'Di kota ini, yang absurd adalah hal biasa.',
     apiUrl: import.meta.env.VITE_ZZZ_API_URL || 'http://localhost:3002',
     theme: 'zzz',
+    accent: '#f0a45b',
     image:
-      'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1800&q=85',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQmuzahqD_UhYUTx1MS7jr5H_yeZFsCzVz1uIGgFqbIg&s=10',
     imagePosition: 'center 52%',
     index: '02',
   },
@@ -33,8 +35,9 @@ export const games = [
     tagline: 'Temukan kisah dan karakter dari tujuh bangsa.',
     apiUrl: import.meta.env.VITE_GI_API_URL || 'http://localhost:3003',
     theme: 'gi',
+    accent: '#91c98c',
     image:
-      'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1800&q=85',
+      'https://imgeucdn.gamespress.com/cdn/files/Games%20Press/2026/09/121042-6f9bc0cc/Key_Art_EN.jpg?w=533&mode=max&otf=y&quality=90&format=jpg&bgcolor=white&sky=529283df108cff2ff97aee2e7617253cc51712a5b9764c685a1c4354536652c5',
     imagePosition: 'center 55%',
     index: '03',
   },
