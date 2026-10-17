@@ -21,6 +21,16 @@ async function migrateDB(){
 
         // =========================================================== //
 
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS user(
+            id SERIAL PRIMARY KEY,
+            username VARCHAR,
+            password TEXT
+            )
+        `)
+
+        console.log("Berhasil membuat table user")
+
         await hsr.query(`
             CREATE TABLE IF NOT EXISTS character(
             id SERIAL PRIMARY KEY,
@@ -72,4 +82,11 @@ async function migrateDB(){
     }
 }
 
-migrateDB()
+exports.handler = async (event, context) =>{
+    await migrateDB()
+
+    return{
+        statusCode: 200,
+        message: "Migration Success"
+    }
+}  

@@ -6,7 +6,10 @@ const pool = new Pool({
     password: process.env.DB_PASS,
     port: process.env.DB_PORT || 5432,
     user: process.env.DB_USER,
-    host: process.env.DB_HOST || 'localhost'
+    host: process.env.DB_HOST || 'localhost',
+    ssl: {
+        rejectUnauthorized: false
+    }
 })
 
 const hsr = new Pool({
@@ -14,7 +17,10 @@ const hsr = new Pool({
     password: process.env.DB_PASS,
     port: process.env.DB_PORT || 5432,
     user: process.env.DB_USER,
-    host: process.env.DB_HOST || 'localhost'
+    host: process.env.DB_HOST || 'localhost',
+    ssl: {
+        rejectUnauthorized: false
+    }
 })
 
 const gi = new Pool({
@@ -22,7 +28,10 @@ const gi = new Pool({
     password: process.env.DB_PASS,
     port: process.env.DB_PORT || 5432,
     user: process.env.DB_USER,
-    host: process.env.DB_HOST || 'localhost'
+    host: process.env.DB_HOST || 'localhost',
+    ssl: {
+        rejectUnauthorized: false
+    }
 })
 
 const zzz = new Pool({
@@ -30,7 +39,10 @@ const zzz = new Pool({
     password: process.env.DB_PASS,
     port: process.env.DB_PORT || 5432,
     user: process.env.DB_USER,
-    host: process.env.DB_HOST || 'localhost'
+    host: process.env.DB_HOST || 'localhost',
+    ssl: {
+        rejectUnauthorized: false
+    }
 })
 
 module.exports = { pool, hsr, gi, zzz }
