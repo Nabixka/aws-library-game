@@ -2,27 +2,25 @@ const { pool, hsr, gi, zzz } = require("./config")
 
 async function migrateDB(){
     try{
-        await pool.query(`
-            CREATE DATABASE genshin_impact
-        `)
+        try {
+            await pool.query(`CREATE DATABASE genshin_impact`)
+            console.log("Berhasil membuat database genshin_impact")
+        } catch (e) { console.log("Info: Database genshin_impact mungkin sudah ada.") }
 
-        console.log("Berhasil membuat database genshin_impact")
+        try {
+            await pool.query(`CREATE DATABASE honkai_star_rail`)
+            console.log("Berhasil membuat database honkai_star_rail")
+        } catch (e) { console.log("Info: Database honkai_star_rail mungkin sudah ada.") }
 
-        await pool.query(`
-            CREATE DATABASE honkai_star_rail
-        `)
-
-        console.log("Berhasil membuat database honkai_star_rail")
-
-        await pool.query(`
-            CREATE DATABASE zenless_zone_zero`)
-        
-        console.log("Berhasil membuat database zenless_zone_zero")
+        try {
+            await pool.query(`CREATE DATABASE zenless_zone_zero`)
+            console.log("Berhasil membuat database zenless_zone_zero")
+        } catch (e) { console.log("Info: Database zenless_zone_zero mungkin sudah ada.") }
 
         // =========================================================== //
 
         await pool.query(`
-            CREATE TABLE IF NOT EXISTS user(
+            CREATE TABLE IF NOT EXISTS "user"(
             id SERIAL PRIMARY KEY,
             username VARCHAR,
             password TEXT
@@ -76,9 +74,7 @@ async function migrateDB(){
     catch(err){
         console.log("message: ", err.message),
         console.log("stack: " , err.stack)
-    }
-    finally{
-        process.exit(0)
+        throw err
     }
 }
 

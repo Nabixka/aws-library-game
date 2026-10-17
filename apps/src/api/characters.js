@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 function getApiUrl(game) {
   const baseUrl = game.apiUrl?.trim().replace(/\/+$/, '')
 
@@ -9,12 +11,17 @@ function getApiUrl(game) {
 }
 
 async function requestCharacterData(game, path = '') {
-  const response = await fetch(`${getApiUrl(game)}${path}`)
-  if (!response.ok) {
-    throw new Error(`API ${game.shortName} merespons dengan status ${response.status}.`)
+  let result
+  try {
+    const response = await axios.get(`${getApiUrl(game)}${path}`)
+    result = response.data
+  } catch (error) {
+    if (error.response) {
+      throw new Error(`API ${game.shortName} merespons dengan status ${error.response.status}.`)
+    }
+    throw new Error(`Gagal menghubungi API ${game.shortName}: ${error.message}`)
   }
 
-  const result = await response.json()
   if (!result || !('data' in result)) {
     throw new Error(`Format respons API ${game.shortName} tidak dikenali.`)
   }
