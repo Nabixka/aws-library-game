@@ -2,6 +2,7 @@ const { pool } = require("./config")
 const express = require("express")
 const bcrypt = require("bcrypt")
 const serverless = require("serverless-http")
+const { startAuthExecution } = require("./stepFunction")
 
 const app = express()
 app.use(express.json())
@@ -15,7 +16,7 @@ app.post('/login', async (req, res) => {
             })
         }
 
-        const getExist = await pool.query(`SELECT * FROM user WHERE username = $1`, [username])
+        const getExist = await pool.query(`SELECT id, username, password FROM users WHERE username = $1`, [username])
         if(!getExist.rows[0] || getExist.rows.length === 0){
             return res.status(404).json({
                 message: "Tidak ada user tersebut"
@@ -29,13 +30,16 @@ app.post('/login', async (req, res) => {
             })
         }
 
+        const executionArn = await startAuthExecution("login", getExist.rows[0])
+
         return res.json({
-            message: "Berhasil Login"
+            message: "Berhasil Login",
+            executionArn
         })
     }
     catch(err){
         return res.status(500).json({
-            message: "Gagal membuat user",
+            message: "Gagal memproses login",
             error: err.message
         })
     }

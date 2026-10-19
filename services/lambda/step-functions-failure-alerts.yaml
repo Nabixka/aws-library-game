@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Send Step Functions failure events to an email address through SNS.
+
+Parameters:
+  StateMachineArn:
+    Type: String
+    Description: ARN of the auth Step Functions state machine.
+  EmailAddress:
+    Type: String
+    Description: Email address to subscribe to the SNS topic.
+
+Resources:
+  FailureNotificationTopic:
+    Type: AWS::SNS::Topic
+
+  FailureEmailSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: email
+      Endpoint: !Ref EmailAddress
+      TopicArn: !Ref FailureNotificationTopic
+
+  StepFunctionsFailureRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: AuthStateMachineFailureAlert
+      Description: Forward failed auth state machine executions to SNS.
+      State: ENABLED
+      EventPattern:
+        source:
+          - aws.states
+        detail-type:
+          - Step Functions Execution Status Change
+        detail:
+          stateMachineArn:
+            - !Ref StateMachineArn
+          status:
+            - FAILED
+            - TIMED_OUT
+            - ABORTED
+      Targets:
+        - Id: FailureNotificationTopic
+          Arn: !Ref FailureNotificationTopic
+
+  FailureNotificationTopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      Topics:
+        - !Ref FailureNotificationTopic
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sns:Publish
+            Resource: !Ref FailureNotificationTopic
+            Condition:
+              ArnEquals:
+                aws:SourceArn: !Sub arn:${AWS::Partition}:events:${AWS::Region}:${AWS::AccountId}:rule/AuthStateMachineFailureAlert
+
+Outputs:
+  FailureNotificationTopicArn:
+    Description: SNS topic receiving failed Step Functions execution events.
+    Value: !Ref FailureNotificationTopic

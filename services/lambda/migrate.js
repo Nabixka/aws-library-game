@@ -20,14 +20,14 @@ async function migrateDB(){
         // =========================================================== //
 
         await pool.query(`
-            CREATE TABLE IF NOT EXISTS "user"(
+            CREATE TABLE IF NOT EXISTS users(
             id SERIAL PRIMARY KEY,
             username VARCHAR,
             password TEXT
             )
         `)
 
-        console.log("Berhasil membuat table user")
+        console.log("Berhasil membuat table users")
 
         await hsr.query(`
             CREATE TABLE IF NOT EXISTS character(
