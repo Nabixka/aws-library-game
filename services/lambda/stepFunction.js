@@ -1,4 +1,4 @@
-const { SFNClient, StartExecutionCommand } = require("@aws-sdk/client-sfn")
+import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn"
 
 const client = new SFNClient({})
 
@@ -24,4 +24,4 @@ async function startAuthExecution(action, user) {
     return result.executionArn
 }
 
-module.exports = { startAuthExecution }
+export { startAuthExecution }

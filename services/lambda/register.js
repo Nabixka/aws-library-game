@@ -1,8 +1,9 @@
-const { pool } = require("./config")
-const express = require("express")
-const bcrypt = require("bcrypt")
-const serverless = require("serverless-http")
-const { startAuthExecution } = require("./stepFunction")
+import { pool } from "./config.js"
+import express from "express"
+import bcrypt from "bcrypt"
+import serverless from "serverless-http"
+import { startAuthExecution } from "./stepFunction.js"
+import { sendFailureMessage } from "./message.js"
 
 const app = express()
 app.use(express.json())
@@ -36,11 +37,21 @@ app.post('/register', async (req, res) => {
         })
     }
     catch(err){
-        return res.status(500).json({
+        const response = {
             message: "Gagal membuat user",
             error: err.message
-        })
+        }
+
+        try {
+            await sendFailureMessage("register", err)
+        }
+        catch(notificationError) {
+            console.error("Gagal mengirim notifikasi SNS untuk register", notificationError)
+            response.notificationError = notificationError.message
+        }
+
+        return res.status(500).json(response)
     }
 })
 
-module.exports.handler = serverless(app)
+export const handler = serverless(app)

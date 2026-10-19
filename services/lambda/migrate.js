@@ -1,4 +1,4 @@
-const { pool, hsr, gi, zzz } = require("./config")
+import { pool, hsr, gi, zzz } from "./config.js"
 
 async function migrateDB(){
     try{
@@ -78,7 +78,7 @@ async function migrateDB(){
     }
 }
 
-exports.handler = async (event, context) =>{
+export const handler = async (event, context) =>{
     await migrateDB()
 
     return{
