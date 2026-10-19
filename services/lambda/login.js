@@ -1,11 +1,15 @@
 import { pool } from "./config.js"
 import express from "express"
 import bcrypt from "bcrypt"
+import cors from "cors"
 import serverless from "serverless-http"
 import { startAuthExecution } from "./stepFunction.js"
 import { sendFailureMessage } from "./message.js"
 
 const app = express()
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || "https://main.di4ydu272hbea.amplifyapp.com"
+}))
 app.use(express.json())
 
 app.post('/login', async (req, res) => {

@@ -6,6 +6,9 @@ to the SNS topic ARN that receives endpoint error alerts. The Lambda execution
 role needs `states:StartExecution` permission for the state machine and
 `sns:Publish` permission for the topic. Configure the Lambda, state machine,
 and SNS topic in the same AWS Region.
+The auth handlers send CORS headers for
+`https://main.di4ydu272hbea.amplifyapp.com` by default. Set `CORS_ORIGIN` on
+both functions if the frontend uses a different origin.
 
 The Lambda deployment ZIP must contain `package.json`, `node_modules/`, and
 the handler and helper files directly at its root. Set the Lambda handler to
