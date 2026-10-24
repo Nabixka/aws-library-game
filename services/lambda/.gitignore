@@ -1,2 +1,4 @@
 node_modules
 *.yaml
+auth-state-machine.asl.json
+dropDatabase.js

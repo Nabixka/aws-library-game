@@ -17,7 +17,7 @@ function; do not point it into `node_modules`. From this directory, create a
 fresh deployment ZIP with:
 
 ```sh
-zip -r /tmp/auth-lambda-esm.zip package.json login.js register.js config.js stepFunction.js message.js node_modules/
+zip -r /tmp/auth-lambda-esm.zip package.json login.js register.js config.js node_modules/
 ```
 
 Upload that ZIP to both functions and select the appropriate handler name for
@@ -82,7 +82,8 @@ The stack creates an SNS topic and an EventBridge rule that forwards
 `FAILED`, `TIMED_OUT`, and `ABORTED` execution events for that state machine.
 Confirm the SNS subscription using the confirmation email before expecting
 notifications. The template outputs the topic ARN to use as `SNS_TOPIC_ARN`.
-Register and login endpoint errors are published by `message.js` to the same
-topic. Normal validation responses and incorrect credentials do not trigger
-these endpoint error alerts. If publishing the notification fails, the endpoint
-still returns its original error and includes a `notificationError` detail.
+Register and login endpoint errors are published by their respective Lambda
+handlers to the same topic. Normal validation responses and incorrect
+credentials do not trigger these endpoint error alerts. If publishing the
+notification fails, the endpoint still returns its original error and includes
+a `notificationError` detail.
