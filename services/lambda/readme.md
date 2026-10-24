@@ -24,6 +24,31 @@ Upload that ZIP to both functions and select the appropriate handler name for
 each one. The existing `library.zip` does not include the login or register
 handler files.
 
+## Scheduled database health check
+
+Deploy `database-health-check.js` as a Lambda using the Node.js runtime and set
+the handler to `database-health-check.handler`. Package it with its shared
+config and dependencies:
+
+```sh
+zip -r /tmp/database-health-check.zip package.json database-health-check.js config.js node_modules/
+```
+
+Set the `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`, and
+`SNS_TOPIC_ARN` environment variables on the function. The SNS topic must have
+an email subscription that has been confirmed. Grant the Lambda execution role
+`sns:Publish` permission for that topic. Configure a timeout (for example, 10
+seconds) and network access so the function can reach the PostgreSQL server.
+The handler runs `SELECT 1` against the primary database, Honkai: Star Rail,
+Genshin Impact, and Zenless Zone Zero databases, then publishes the health
+status of all four databases through SNS on every invocation. A failed
+database check is included in the email and causes the Lambda invocation to
+fail after SNS publish.
+
+In EventBridge, configure the schedule expression as `rate(1 hour)`, set this
+Lambda as the target, and enable the schedule. Ensure the Lambda resource
+policy allows EventBridge to invoke it.
+
 After credentials are verified and the database operation succeeds, each
 endpoint starts an execution with this JSON input:
 
